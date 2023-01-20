@@ -3,19 +3,20 @@
 // **********************************
 
 // Update treshold in milliseconds, messages will only be sent on this interval
-#define UPDATE_INTERVAL 60000  // 1 minute
-//#define UPDATE_INTERVAL 300000 // 5 minutes
+#define UPDATE_INTERVAL 1000 // 1 second
+// #define UPDATE_INTERVAL 60000  // 1 minute
+// #define UPDATE_INTERVAL 300000 // 5 minutes
 
-// * Baud rate for both hardware and software 
+// * Baud rate for both hardware and software
 #define BAUD_RATE 115200
 
 // The used serial pins, note that this can only be UART0, as other serial port doesn't support inversion
-// By default the UART0 serial will be used. These settings displayed here just as a reference. 
+// By default the UART0 serial will be used. These settings displayed here just as a reference.
 // #define SERIAL_RX RX
 // #define SERIAL_TX TX
 
 // * Max telegram length
-#define P1_MAXLINELENGTH 1050
+#define TELEGRAM_MAX_LENGTH 1050
 
 // * The hostname of our little creature
 #define HOSTNAME "p1meter"
@@ -26,53 +27,27 @@
 // * Wifi timeout in milliseconds
 #define WIFI_TIMEOUT 30000
 
-// * MQTT network settings
-#define MQTT_MAX_RECONNECT_TRIES 10
-
-// * MQTT root topic
-#define MQTT_ROOT_TOPIC "sensors/power/p1meter"
-
-// * MQTT Last reconnection counter
-long LAST_RECONNECT_ATTEMPT = 0;
-
-long LAST_UPDATE_SENT = 0;
-
 // * To be filled with EEPROM data
-char MQTT_HOST[64] = "";
-char MQTT_PORT[6]  = "";
-char MQTT_USER[32] = "";
-char MQTT_PASS[32] = "";
+char HOMEY_ID[24] = "";
 
-// * Set to store received telegram
-char telegram[P1_MAXLINELENGTH];
-
-// * Set to store the data values read
-long CONSUMPTION_LOW_TARIF;
-long CONSUMPTION_HIGH_TARIF;
-
-long RETURNDELIVERY_LOW_TARIF;
-long RETURNDELIVERY_HIGH_TARIF;
-
-long ACTUAL_CONSUMPTION;
-long ACTUAL_RETURNDELIVERY;
-long GAS_METER_M3;
-
-long L1_INSTANT_POWER_USAGE;
-long L2_INSTANT_POWER_USAGE;
-long L3_INSTANT_POWER_USAGE;
-long L1_INSTANT_POWER_CURRENT;
-long L2_INSTANT_POWER_CURRENT;
-long L3_INSTANT_POWER_CURRENT;
-long L1_VOLTAGE;
-long L2_VOLTAGE;
-long L3_VOLTAGE;
-
-// Set to store data counters read
-long ACTUAL_TARIF;
-long SHORT_POWER_OUTAGES;
-long LONG_POWER_OUTAGES;
-long SHORT_POWER_DROPS;
-long SHORT_POWER_PEAKS;
-
-// * Set during CRC checking
-unsigned int currentCRC = 0;
+const char *homey_connect_root_ca =
+    "-----BEGIN CERTIFICATE-----\n"
+    "MIIDQTCCAimgAwIBAgITBmyfz5m/jAo54vB4ikPmljZbyjANBgkqhkiG9w0BAQsF\n"
+    "ADA5MQswCQYDVQQGEwJVUzEPMA0GA1UEChMGQW1hem9uMRkwFwYDVQQDExBBbWF6\n"
+    "b24gUm9vdCBDQSAxMB4XDTE1MDUyNjAwMDAwMFoXDTM4MDExNzAwMDAwMFowOTEL\n"
+    "MAkGA1UEBhMCVVMxDzANBgNVBAoTBkFtYXpvbjEZMBcGA1UEAxMQQW1hem9uIFJv\n"
+    "b3QgQ0EgMTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALJ4gHHKeNXj\n"
+    "ca9HgFB0fW7Y14h29Jlo91ghYPl0hAEvrAIthtOgQ3pOsqTQNroBvo3bSMgHFzZM\n"
+    "9O6II8c+6zf1tRn4SWiw3te5djgdYZ6k/oI2peVKVuRF4fn9tBb6dNqcmzU5L/qw\n"
+    "IFAGbHrQgLKm+a/sRxmPUDgH3KKHOVj4utWp+UhnMJbulHheb4mjUcAwhmahRWa6\n"
+    "VOujw5H5SNz/0egwLX0tdHA114gk957EWW67c4cX8jJGKLhD+rcdqsq08p8kDi1L\n"
+    "93FcXmn/6pUCyziKrlA4b9v7LWIbxcceVOF34GfID5yHI9Y/QCB/IIDEgEw+OyQm\n"
+    "jgSubJrIqg0CAwEAAaNCMEAwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMC\n"
+    "AYYwHQYDVR0OBBYEFIQYzIU07LwMlJQuCFmcx7IQTgoIMA0GCSqGSIb3DQEBCwUA\n"
+    "A4IBAQCY8jdaQZChGsV2USggNiMOruYou6r4lK5IpDB/G/wkjUu0yKGX9rbxenDI\n"
+    "U5PMCCjjmCXPI6T53iHTfIUJrU6adTrCC2qJeHZERxhlbI1Bjjt/msv0tadQ1wUs\n"
+    "N+gDS63pYaACbvXy8MWy7Vu33PqUXHeeE6V/Uq2V8viTO96LXFvKWlJbYK8U90vv\n"
+    "o/ufQJVtMVT8QtPHRh8jrdkPSHCa2XV4cdFyQzR1bldZwgJcJmApzyMZFo6IQ6XU\n"
+    "5MsI+yMRQ+hDKXJioaldXgjUkK642M4UwtBV8ob2xJNDd2ZhwLnoQdeXeGADbkpy\n"
+    "rqXRfboQnoZsG4q5WTP468SQvvG5\n"
+    "-----END CERTIFICATE-----";
