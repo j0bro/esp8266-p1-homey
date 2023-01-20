@@ -357,9 +357,7 @@ void setup()
     // * Set Homey identifier
     String homeyId(HOMEY_ID);
     // homeyEndpoint = "https://" + homeyId + ".connect.athom.com/api/app/com.p1/update";
-    // homeyEndpoint = "https://5742e2c8f681a3fe23b3ab74.connect.athom.com/api/app/com.p1/update";
-    homeyEndpoint = "http://homey-5742e2c8f681a3fe23b3ab74/api/app/com.p1/update";
-    // homeyEndpoint = "http://homey-" + homeyId + "/api/app/com.p1/update";
+    homeyEndpoint = "http://homey-" + homeyId + "/api/app/com.p1/update";
     Serial.println("Homey endpoint: " + homeyEndpoint);
 
     // * P1 reader
